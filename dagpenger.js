@@ -19,25 +19,19 @@ function kalkulerDagpenger(inntekter) {
     const totalInntekt = inntekter[0] + inntekter[1] + inntekter[2]
     const gjennomsnittligInntekt = totalInntekt / 3
 
+    // Dagpengegrunnlaget kan ikke overstige 6G, både på siste årsinntekt og gjennomsnittlig årsinntekt
+    if (gjennomsnittligInntekt > 6 * grunnbelop || inntekter[0] > 6 * grunnbelop) {
+        return Math.ceil((6 * grunnbelop) / 260)
+    }
+
     // Om siste års inntekt er høyere enn gjennomsnittsinntekt de siste 3 årene, regn dagpenger basert på kun det siste året
     if (inntekter[0] > gjennomsnittligInntekt) {
-        // Dagpengegrunnlaget kan ikke overstige 6G
-        if (inntekter[0] > 6*grunnbelop) {
-            // Satsen for dagpenger er 6G delt på 260 dager
-            return Math.ceil((6 * grunnbelop) / 260)
-        }
-
         // Om grunnlag for dagpenger er mindre enn 6G, så er satsen siste års inntekt delt på 260 dager
         return Math.ceil(inntekter[0] / 260)
     }
 
-    // Om siste års inntekt er lavere enn gjennomsnittsinntekt siste 3 år, regn dagpenger basert på gjennomsnittsinntekt.
-    // Dagpengegrunnlaget kan ikke overstige 6G
-    if (gjennomsnittligInntekt > 6*grunnbelop) {
-        // Satsen for dagpenger er 6G delt på 260 dager
-        return Math.ceil((6 * grunnbelop) / 260)
-    }
-
+    // Om siste års inntekt er lavere enn gjennomsnittsinntekt siste 3 år, regn dagpenger basert på gjennomsnittlig årsinntekt.
+    // Gjennomsnittlig årsinntekt delt på 260 dager
     return Math.ceil(gjennomsnittligInntekt / 260)
 }
 
@@ -49,12 +43,12 @@ function kalkulerDagpenger(inntekter) {
  */
 function kalkulerRettTilDagpenger(inntekter) {
     // Inntekt på 1.5G det siste kalenderåret skal gi rett til dagpenger
-    if (inntekter[0] > 1.5*grunnbelop) {
+    if (inntekter[0] > 1.5 * grunnbelop) {
         return true
     }
 
     // Inntekt på 3G de siste 3 kalenderårene skal gi rett til dagpenger
-    if (inntekter[0]+inntekter[1]+inntekter[2] > 3*grunnbelop) {
+    if (inntekter[0] + inntekter[1] + inntekter[2] > 3 * grunnbelop) {
         return true
     }
 
